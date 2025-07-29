@@ -1,0 +1,20 @@
+image:
+  registry: registry.redhat.io
+  repository: rhbk/keycloak-rhel9
+  tag: 26.2.5.redhat-00001
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: redhat-pull-secret
+
+auth:
+  adminUser: admin
+  adminPassword: Passw0rd!
+
+service:
+  type: ClusterIP
+  port: 8080
+
+route:
+  enabled: true
+  hostname: rhbk-demo.apps.cluster-lgml4.lgml4.sandbox610.opentlc.com

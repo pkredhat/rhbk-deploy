@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rhbk
+  labels:
+    app: rhbk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rhbk
+  template:
+    metadata:
+      labels:
+        app: rhbk
+    spec:
+      imagePullSecrets:
+      - name: {{ .Values.imagePullSecrets | first | quote }}
+      containers:
+      - name: keycloak
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: KEYCLOAK_ADMIN
+          valueFrom:
+            secretKeyRef:
+              name: rhbk-admin-credentials
+              key: admin-username
+        - name: KEYCLOAK_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rhbk-admin-credentials
+              key: admin-password
+        - name: KC_PROXY
+          value: "edge"
+        - name: QUARKUS_HTTP_SSL_HSTS
+          value: "false"
+        ports:
+        - containerPort: 8080
