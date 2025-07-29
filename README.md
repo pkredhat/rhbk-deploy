@@ -8,5 +8,7 @@ This folder contains the Helm configuration to deploy **Red Hat Build of Keycloa
 - A project/namespace created in OpenShift
 
 ## How to Deploy
-oc new-project rhbk-demo
+oc new-project rhbk-demo 
+
+
 helm upgrade --install rhbk ./rhbk-helm -n rhbk-demo
